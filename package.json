@@ -1,0 +1,36 @@
+{
+  "name": "passkeys-crossmint-lit-protocol-new-lib-version-v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@lit-protocol/auth-helpers": "^3.1.4",
+    "@lit-protocol/constants": "^3.1.4",
+    "@lit-protocol/contracts-sdk": "^3.1.4",
+    "@lit-protocol/lit-auth-client": "^3.1.4",
+    "@lit-protocol/lit-node-client": "^3.1.4",
+    "@lit-protocol/pkp-ethers": "^3.1.4",
+    "@lit-protocol/types": "^3.1.4",
+    "@spruceid/siwe-parser": "^2.0.2",
+    "buffer": "^6.0.3",
+    "ethers": "^5.7.2",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "readable-stream": "^4.5.2",
+    "siwe": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
+  }
+}
