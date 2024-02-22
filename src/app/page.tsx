@@ -27,6 +27,7 @@ const chain = "polygon";
 const chainId = 137;
 // const dAppOwnerPrivateKey = "A_WALLET_PRIVATE_KEY"; // TODO replace this with a wallet the dApp owns
 
+
 const Home = () => {
   const [username, setUsername] = useState("hello");
   const [messageToEncrypt, setMessageToEncrypt] = useState("woof woof");
@@ -65,29 +66,29 @@ const Home = () => {
     setlitAuthClient(litAuthClient);
   }, []);
 
-  // useEffect(() => {
-  //   const dAppOwnerWallet = new ethers.Wallet(
-  //     dAppOwnerPrivateKey,
-  //     new ethers.providers.JsonRpcProvider("https://chain-rpc.litprotocol.com/http"),
-  //   );
-  //   setDAppOwnerWallet(dAppOwnerWallet);
+  useEffect(() => {
+    const dAppOwnerWallet = new ethers.Wallet(
+      dAppOwnerPrivateKey,
+      new ethers.providers.JsonRpcProvider("https://chain-rpc.litprotocol.com/http"),
+    );
+    setDAppOwnerWallet(dAppOwnerWallet);
 
-  //   const getCapacityTokenId = async () => {
-  //     const litContracts = new LitContracts({
-  //       network: "manzano",
-  //       signer: dAppOwnerWallet,
-  //     });
-  //     await litContracts.connect();
-  //     const { capacityTokenId } = await litContracts.mintCapacityCreditsNFT({
-  //       // requestsPerDay: 1000,
-  //       requestsPerSecond: 100,
-  //       daysUntilUTCMidnightExpiration: 10,
-  //     });
-  //     console.log(`capacityTokenId: ${capacityTokenId}`);
-  //     setCapacityTokenId(capacityTokenId);
-  //   }
-  //   getCapacityTokenId().catch(console.error);
-  // }, []);
+    const getCapacityTokenId = async () => {
+      const litContracts = new LitContracts({
+        network: "manzano",
+        signer: dAppOwnerWallet,
+      });
+      await litContracts.connect();
+      const { capacityTokenId } = await litContracts.mintCapacityCreditsNFT({
+        // requestsPerDay: 1000,
+        requestsPerSecond: 10,
+        daysUntilUTCMidnightExpiration: 10,
+      });
+      console.log(`capacityTokenId: ${capacityTokenId.toString()}`);
+      setCapacityTokenId(capacityTokenId.toString());
+    }
+    getCapacityTokenId().catch(console.error);
+  }, []);
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -248,12 +249,12 @@ const Home = () => {
     ) as WebAuthnProvider;
     const authMethod = await provider.authenticate();
 
-    // const { capacityDelegationAuthSig } = await litNodeClient?.createCapacityDelegationAuthSig({
-    //   dAppOwnerWallet: dAppOwnerWallet!,
-    //   capacityTokenId: capacityTokenId!,
-    //   delegateeAddresses: [pkpEthAddress],
-    // })!;
-    const capacityDelegationAuthSig = await createRemoteAuthSig();
+    const { capacityDelegationAuthSig } = await litNodeClient?.createCapacityDelegationAuthSig({
+      dAppOwnerWallet: dAppOwnerWallet!,
+      capacityTokenId: capacityTokenId!,
+      delegateeAddresses: [pkpEthAddress],
+    })!;
+    // const capacityDelegationAuthSig = await createRemoteAuthSig();
     const sessionSigs = await provider.getSessionSigs({
       authMethod: authMethod,
       pkpPublicKey: pkpPublicKey!,
