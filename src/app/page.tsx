@@ -26,11 +26,10 @@ import { SiweMessage } from 'siwe';
 const chain = "polygon";
 const chainId = 137;
 // const dAppOwnerPrivateKey = "A_WALLET_PRIVATE_KEY"; // TODO replace this with a wallet the dApp owns
-const dAppOwnerPrivateKey = "REPLACE_ME"; // TODO replace this with a wallet the dApp owns
 
 const Home = () => {
-  const [username, setUsername] = useState("");
-  const [messageToEncrypt, setMessageToEncrypt] = useState("");
+  const [username, setUsername] = useState("hello");
+  const [messageToEncrypt, setMessageToEncrypt] = useState("woof woof");
   const [pkpEthAddress, setPkpEthAddress] = useState("");
   const [ciphertext, setCiphertext] = useState("");
   const [dataToEncryptHash, setDataToEncryptHash] = useState("");
@@ -113,6 +112,8 @@ const Home = () => {
     // Return public key of newly minted PKP
     console.log(response);
     setPkpResponse(response);
+    setPkpPublicKey(response.pkpPublicKey);
+    setPkpEthAddress(response.pkpEthAddress!);
     return response.pkpPublicKey;
   }
 
@@ -222,6 +223,8 @@ const Home = () => {
       ciphertext,
       dataToEncryptHash,
     });
+    setCiphertext(ciphertext);
+    setDataToEncryptHash(dataToEncryptHash);
 
     return {
       ciphertext,
