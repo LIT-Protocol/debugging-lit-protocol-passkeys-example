@@ -47,23 +47,25 @@ const Home = () => {
   const [capacityTokenId, setCapacityTokenId] = useState();
 
   useEffect(() => {
+    const go = async () => {
+      const client = new LitNodeClient({
+        litNetwork: "manzano",
+      });
+      setLitNodeClient(client);
+      const litAuthClient = new LitAuthClient({
+        litRelayConfig: {
+          // Request a Lit Relay Server API key here: https://forms.gle/RNZYtGYTY9BcD9MEA
+          relayApiKey: "c8999b7e-8bb7-416d-a854-dac8632f9ee6_crossmint",
+        },
+        litNodeClient: client,
+      });
+      await client.connect();
 
-
-    const client = new LitNodeClient({
-      litNetwork: "manzano",
-    });
-    setLitNodeClient(client);
-    const litAuthClient = new LitAuthClient({
-      litRelayConfig: {
-        // Request a Lit Relay Server API key here: https://forms.gle/RNZYtGYTY9BcD9MEA
-        relayApiKey: "c8999b7e-8bb7-416d-a854-dac8632f9ee6_crossmint",
-      },
-      litNodeClient: client,
-    });
-
-    // Initialize WebAuthn provider
-    litAuthClient.initProvider<WebAuthnProvider>(ProviderType.WebAuthn);
-    setlitAuthClient(litAuthClient);
+      // Initialize WebAuthn provider
+      litAuthClient.initProvider<WebAuthnProvider>(ProviderType.WebAuthn);
+      setlitAuthClient(litAuthClient);
+    }
+  go().catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -137,7 +139,6 @@ const Home = () => {
   };
 
   async function encrypt(message: string) {
-    await litNodeClient!.connect();
 
     // TODO: Remove duplicate
     const provider = litAuthClient!.getProvider(
@@ -241,7 +242,7 @@ const Home = () => {
   };
 
   async function decrypt() {
-    await litNodeClient!.connect();
+    
 
     // TODO: Remove duplicate
     const provider = litAuthClient!.getProvider(
@@ -359,7 +360,6 @@ const Home = () => {
   //   }
   // }
   async function createRemoteAuthSig() {
-    await litNodeClient!.connect();
 
     let nonce = litNodeClient!.getLatestBlockhash();
 
